@@ -1,8 +1,9 @@
 const express = require('express')
+const { ROUTES } = require("./routes")
+const {setupProxies} = require("./proxy")
+
 const app = express()
 
-app.get('/',(req,res)=>{
-    res.send("Boilerplate")
-})
+setupProxies(app, ROUTES)
 
 app.listen(8000,()=>{console.log('Listening on Port 8000')})
