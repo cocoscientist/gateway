@@ -11,6 +11,7 @@ const gameRoute = (client)=>{ return {
                 const response = responseBuffer.toString('utf8');
                 if(!!req.query.id){
                     await client.set(`__gameid__${req.query.id}`,response)
+                    await client.expire(`__gameid__${req.query.id}`, 3600)
                     console.log('Saved')
                 }
                 return responseBuffer;
