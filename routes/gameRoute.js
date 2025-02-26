@@ -8,13 +8,13 @@ const gameRoute = (client)=>{ return {
         selfHandleResponse: true,
         on:{
             proxyRes: responseInterceptor(async (responseBuffer, proxyRes, req, res) => {
-                const response = responseBuffer.toString('utf8');
+                const response = responseBuffer.toString('utf8')
                 if(!!req.query.id){
                     await client.set(`__gameid__${req.query.id}`,response)
                     await client.expire(`__gameid__${req.query.id}`, 3600)
                     console.log('Saved')
                 }
-                return responseBuffer;
+                return responseBuffer
             })
         }
     }}
