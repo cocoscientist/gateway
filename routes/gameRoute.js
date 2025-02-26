@@ -1,6 +1,6 @@
 const { responseInterceptor } = require('http-proxy-middleware')
 
-const route = (client)=>{return{
+const gameRoute = (client)=>{ return {
     url: '/games',
     proxy: {
         target: "https://www.cheapshark.com/api/1.0/",
@@ -8,12 +8,7 @@ const route = (client)=>{return{
         selfHandleResponse: true,
         on:{
             proxyRes: responseInterceptor(async (responseBuffer, proxyRes, req, res) => {
-                // log original request and proxied request info
-                const exchange = `[DEBUG] ${req.method} ${req.path} -> ${proxyRes.req.protocol}//${proxyRes.req.host}${proxyRes.req.path} [${proxyRes.statusCode}]`;
-                console.log(exchange); // [DEBUG] GET / -> http://www.example.com [200]
-                // log complete response
                 const response = responseBuffer.toString('utf8');
-                console.log(response); // log response body
                 if(!!req.query.id){
                     await client.set(`__gameid__${req.query.id}`,response)
                     console.log('Saved')
@@ -43,5 +38,5 @@ const cacheChecker = (client) => {
     }
 }
 
-exports.route = route
-exports.cacheMiddleware = cacheChecker
+exports.gameRoute = gameRoute
+exports.gameCacheMiddleware = cacheChecker
