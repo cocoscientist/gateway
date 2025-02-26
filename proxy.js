@@ -6,4 +6,9 @@ const setupProxies = (app, routes) => {
     })
 }
 
+const setupProxy = (app,route) => {
+    app.use(route.url,createProxyMiddleware(route.proxy))
+}
+
 exports.setupProxies = setupProxies
+exports.setupProxy = setupProxy
